@@ -1,6 +1,6 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import type { Institution } from "../app/types/institutions";
+import type { Institution } from "../src/app/types/institutions";
 
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));

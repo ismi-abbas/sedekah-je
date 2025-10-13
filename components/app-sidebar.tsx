@@ -1,6 +1,6 @@
+import { Image } from "@unpic/react";
 import { SettingsIcon } from "lucide-react";
 import { headers } from "next/headers";
-import Image from "next/image";
 import type * as React from "react";
 
 import { auth } from "@/auth";

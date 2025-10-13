@@ -1,9 +1,7 @@
-// import SedekahjeLogo from "./masjid.svg";
-import SedekahjeLogo from "@/components/sedekahje-logo";
-import { QRCodeSVG } from "qrcode.react";
-
 import { institutions } from "@/app/data/institutions";
+import SedekahjeLogo from "@/components/sedekahje-logo";
 import { slugify } from "@/lib/utils";
+import { QRCodeSVG } from "qrcode.react";
 
 function QRSlug({ params }: { params: { slug: string } }) {
 	const selected = institutions.find((i) => slugify(i.name) === params.slug);

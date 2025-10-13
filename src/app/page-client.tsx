@@ -3,7 +3,6 @@
 import { findNearest, getDistance } from "geolib";
 import type { GeolibInputCoordinates } from "geolib/es/types";
 import { debounce } from "lodash-es";
-import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import CollapsibleCustomMap from "@/components/custom-map";
@@ -18,11 +17,10 @@ import FilterState from "@/components/filter-state";
 import FilteredCount from "@/components/filtered-count";
 import Search from "@/components/search";
 import { Button } from "@/components/ui/button";
+import { Link } from "@tanstack/react-router";
 import { HelpCircle, MapIcon } from "lucide-react";
-import Link from "next/link";
 
 import type { Institution as OldInstitution } from "@/app/types/institutions";
-import RamadanCountdown from "@/components/ramadan-countdown";
 import type { Institution } from "@/db/schema";
 
 type SearchParams = {
@@ -43,8 +41,7 @@ export function PageClient({
 	initialInstitutions,
 	initialSearchParams,
 }: Props) {
-	const router = useRouter();
-	const searchParams = useSearchParams();
+	// const router = useNavigate();
 
 	// URL state
 	const [query, setQuery] = useState<string>(initialSearchParams.search || "");
@@ -103,17 +100,15 @@ export function PageClient({
 	// Update URL when filters change
 	const updateURL = useCallback(
 		(newQuery: string, newCategories: string[], newState: string) => {
-			const params = new URLSearchParams();
-
-			if (newQuery) params.set("search", newQuery);
-			if (newCategories.length > 0)
-				params.set("category", newCategories.join(","));
-			if (newState) params.set("state", newState);
-
-			const newURL = params.toString() ? `/?${params.toString()}` : "/";
-			router.push(newURL, { scroll: false });
+			// const params = new URLSearchParams();
+			// if (newQuery) params.set("search", newQuery);
+			// if (newCategories.length > 0)
+			// 	params.set("category", newCategories.join(","));
+			// if (newState) params.set("state", newState);
+			// const newURL = params.toString() ? `/?${params.toString()}` : "/";
+			// router.push(newURL, { scroll: false });
 		},
-		[router],
+		[],
 	);
 
 	const debouncedUpdateURL = useMemo(
@@ -292,7 +287,7 @@ export function PageClient({
 						<span className="sm:hidden">Peta</span>
 					</Button>
 
-					<Link href="/faq" passHref>
+					<Link to="/faq">
 						<Button
 							variant="outline"
 							className="bg-gradient-to-br from-blue-500 to-blue-300 border border-blue-400 rounded-full hover:from-blue-700 hover:to-blue-500 transition-colors"

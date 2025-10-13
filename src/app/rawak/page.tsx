@@ -15,10 +15,10 @@ import PageSection from "@/components/ui/pageSection";
 import QrCodeDisplay from "@/components/ui/qrCodeDisplay";
 import useClientDimensions from "@/hooks/use-client-dimensions";
 import { removeDuplicateInstitutions, slugify } from "@/lib/utils";
+import { Image } from "@unpic/react";
 import { AnimatePresence, motion } from "framer-motion";
 import html2canvas from "html2canvas";
 import { Clipboard, Download, Loader2, MapPin, QrCode } from "lucide-react";
-import Image from "next/image";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 

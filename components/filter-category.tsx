@@ -1,6 +1,4 @@
-import { type Institution, categories } from "@/app/types/institutions";
-import Image from "next/image";
-import type React from "react";
+import { type Institution, categories } from "@/src/app/types/institutions";
 import { useState } from "react";
 
 type Props = {
@@ -54,7 +52,7 @@ const FilterCategory = ({
 						data-active={selectedCategories.includes(category.value)}
 						className="px-4 py-2 text-sm max-sm:text-xs font-bold data-[active=true]:bg-slate-500 data-[active=true]:text-white truncate select-none flex flex-row gap-2 items-center justify-center whitespace-nowrap bg-background w-fit border border-border rounded-full shadow-md dark:shadow-muted/50"
 					>
-						<Image
+						<img
 							src={category.icon}
 							alt={category.label}
 							width={24}

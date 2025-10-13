@@ -1,16 +1,15 @@
 "use client";
 
 // IMPORTANT: the order matters!
-import "leaflet/dist/leaflet.css";
-import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css";
-import "leaflet-defaulticon-compatibility";
-import "leaflet.locatecontrol/dist/L.Control.Locate.min.css";
-import "leaflet.locatecontrol";
-import "leaflet.fullscreen/Control.FullScreen.css";
-import "leaflet.fullscreen";
-import { institutions } from "@/app/data/institutions";
-import { CategoryColor, type Institution } from "@/app/types/institutions";
+import { CategoryColor, type Institution } from "@/src/app/types/institutions";
 import L from "leaflet";
+import "leaflet-defaulticon-compatibility";
+import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css";
+import "leaflet.fullscreen";
+import "leaflet.fullscreen/Control.FullScreen.css";
+import "leaflet.locatecontrol";
+import "leaflet.locatecontrol/dist/L.Control.Locate.min.css";
+import "leaflet/dist/leaflet.css";
 
 import { slugify } from "@/lib/utils";
 import { Icon, type LatLngExpression } from "leaflet";

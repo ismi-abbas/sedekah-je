@@ -1,11 +1,11 @@
 "use client";
 
-import { CategoryColor } from "@/app/types/institutions";
-import type { Institution as OldInstitution } from "@/app/types/institutions";
 import CollapsibleCustomMap from "@/components/custom-map";
 import { Button } from "@/components/ui/button";
 import InstitutionCard from "@/components/ui/institution-card";
 import type { Institution } from "@/db/schema";
+import type { Institution as OldInstitution } from "@/src/app/types/institutions";
+import { CategoryColor } from "@/src/app/types/institutions";
 import { MapIcon } from "lucide-react";
 import { useCallback, useMemo, useState } from "react";
 

@@ -6,9 +6,9 @@ import { Separator } from "@/components/ui/separator";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useAuth } from "@/hooks/use-auth";
 import { cn } from "@/lib/utils";
+import { useLocation } from "@tanstack/react-router";
 import { BarChart3, Home, LogOut, Menu, Plus, Settings, Trophy, User } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 
 type NavItem = {
 	title: string;
@@ -55,7 +55,7 @@ const secondaryNavItems: NavItem[] = [
 ];
 
 export function UserNav() {
-	const pathname = usePathname();
+	const { pathname } = useLocation();
 	const { user, isAuthenticated, isAdmin, signOut } = useAuth();
 
 	const handleSignOut = async () => {
@@ -197,7 +197,7 @@ export function UserNav() {
 }
 
 export function UserNavDesktop() {
-	const pathname = usePathname();
+	const { pathname } = useLocation();
 	const { user, isAdmin, signOut } = useAuth();
 
 	const handleSignOut = async () => {
@@ -214,7 +214,7 @@ export function UserNavDesktop() {
 				const isActive = pathname === item.href;
 
 				return (
-					<Link key={item.href} href={item.href}>
+					<Link key={item.href} to={item.href}>
 						<div
 							className={cn(
 								"flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground",
@@ -234,7 +234,7 @@ export function UserNavDesktop() {
 			})}
 
 			{isAdmin && (
-				<Link href="/admin/dashboard">
+				<Link to="/admin/dashboard">
 					<div
 						className={cn(
 							"flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground",

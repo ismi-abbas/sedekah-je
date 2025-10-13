@@ -7,8 +7,6 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
-import type React from "react";
 import { useState } from "react";
 
 const ALL_STATES = "all_states";
@@ -84,7 +82,7 @@ const FilterState = ({ onStateChange, className, initialState }: Props) => {
 								{state.flag ? (
 									<div className="flex items-center space-x-3 w-full">
 										<div className="relative overflow-hidden border border-gray-200">
-											<Image
+											<img
 												loading="lazy"
 												src={state.flag}
 												alt={`${state.label} flag`}

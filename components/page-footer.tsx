@@ -1,9 +1,9 @@
 "use client";
 
 import { Separator } from "@/components/ui/separator";
+import { Image } from "@unpic/react";
 import { ExternalLink, Heart } from "lucide-react";
 import { useTheme } from "next-themes";
-import Image from "next/image";
 
 const navigation = {
 	social: [

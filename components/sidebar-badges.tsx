@@ -1,11 +1,11 @@
-import { getPendingClaimRequestsCount } from "@/app/(admin)/admin/claim-requests/_lib/queries";
+import { Badge } from "@/components/ui/badge";
+import { getTotalUsersCount } from "@/lib/queries/users";
+import { getPendingClaimRequestsCount } from "@/src/app/_admin/admin/claim-requests/_lib/queries";
 import {
 	getApprovedInstitutionsCount,
 	getPendingInstitutionsCount,
 	getRejectedInstitutionsCount,
-} from "@/app/(admin)/admin/institutions/_lib/queries";
-import { Badge } from "@/components/ui/badge";
-import { getTotalUsersCount } from "@/lib/queries/users";
+} from "@/src/app/_admin/admin/institutions/_lib/queries";
 import { Suspense } from "react";
 
 // Async badge components that stream in

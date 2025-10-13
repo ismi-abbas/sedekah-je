@@ -20,11 +20,11 @@ import {
 import { useAuth } from "@/hooks/use-auth";
 import { useOutsideClick } from "@/hooks/use-outside-click";
 import { cn, slugify } from "@/lib/utils";
+import { useNavigate } from "@tanstack/react-router";
+import { Image } from '@unpic/react';
 import { AnimatePresence, motion } from "framer-motion";
 import html2canvas from "html2canvas";
 import { DownloadIcon, Eye, Share2, User } from "lucide-react";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { forwardRef, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { ClaimModal } from "./claim-modal";
@@ -97,9 +97,11 @@ const InstitutionCard = forwardRef<
       (contributorEmail === "khairin13chan@gmail.com")
     );
 
-    const router = useRouter();
+    const router = useNavigate();
     const navigateToItem = (category: string, slug: string) => {
-      router.push(`/${category}/${slug}`);
+      router({
+        to: `/${category}/${slug}`,
+      })
     };
 
     useEffect(() => {

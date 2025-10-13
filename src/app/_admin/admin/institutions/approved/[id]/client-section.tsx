@@ -1,16 +1,13 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import QrCodeDisplay from "@/components/ui/qrCodeDisplay";
 import type { supportedPayments } from "@/lib/institution-constants";
-import Image from "next/image";
-import { useRef } from "react";
-import InstitutionReviewForm, {
-	type ReviewFormHandle,
-} from "./institution-review-form";
-import QrImageToolbar from "./qr-image-toolbar";
-import QrReplacementUpload from "./qr-replacement-upload";
-import ReviewActions from "./review-actions";
+import { Image } from "@unpic/react";
+import { PencilIcon, XIcon } from "lucide-react";
+import { useState } from "react";
+import ApprovedInstitutionForm from "./institution-form";
 
 type Props = {
 	institution: {
@@ -24,38 +21,63 @@ type Props = {
 		contributorRemarks?: string | null;
 		sourceUrl?: string | null;
 		createdAt?: Date;
+		reviewedAt?: Date | null;
+		reviewedBy?: string | null;
+		adminNotes?: string | null;
 		[key: string]: unknown;
 	};
 };
 
 export default function ClientSection({ institution }: Props) {
-	const formRef = useRef<ReviewFormHandle | null>(null);
+	const [isEditing, setIsEditing] = useState(false);
 
-	const handleQrReplacementSuccess = () => {
-		// Refresh the page to show the updated QR code
-		window.location.reload();
+	const handleEditToggle = () => {
+		setIsEditing(!isEditing);
 	};
 
 	return (
 		<>
 			{/* Sticky Action Bar */}
 			<div className="sticky top-0 z-10 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b py-4 mb-6">
-				<ReviewActions
-					institutionId={institution.id}
-					institutionName={institution.name}
-					formRef={formRef}
-				/>
+				<div className="flex items-center justify-between">
+					<div className="flex items-center gap-2">
+						<span className="text-sm text-muted-foreground">
+							{isEditing ? "Edit Mode" : "View Mode"}
+						</span>
+					</div>
+					<div className="flex items-center gap-2">
+						<Button
+							variant={isEditing ? "outline" : "ghost"}
+							size="sm"
+							onClick={handleEditToggle}
+							className="gap-2"
+						>
+							{isEditing ? (
+								<>
+									<XIcon className="h-4 w-4" />
+									Cancel
+								</>
+							) : (
+								<>
+									<PencilIcon className="h-4 w-4" />
+									Edit
+								</>
+							)}
+						</Button>
+					</div>
+				</div>
 			</div>
 
 			<div className="grid lg:grid-cols-3 gap-6">
 				<div className="lg:col-span-2">
-					<InstitutionReviewForm
+					<ApprovedInstitutionForm
 						institution={{
 							...institution,
 							sourceUrl: institution.sourceUrl ?? undefined,
 							contributorRemarks: institution.contributorRemarks ?? undefined,
 						}}
-						ref={formRef}
+						isEditing={isEditing}
+						onEditComplete={() => setIsEditing(false)}
 					/>
 				</div>
 				<div className="lg:col-span-1">
@@ -108,9 +130,7 @@ export default function ClientSection({ institution }: Props) {
 							) : (
 								<div className="flex flex-col items-center gap-4 w-full">
 									<div className="text-sm text-muted-foreground p-4 bg-amber-50 border border-amber-200 rounded-md text-center">
-										QR code content could not be automatically extracted. Please
-										use the tools below to manually inspect and enter the QR
-										string, or upload a new QR code image.
+										No QR code content available
 									</div>
 									<div className="flex justify-center">
 										<Image
@@ -119,15 +139,6 @@ export default function ClientSection({ institution }: Props) {
 											width={280}
 											height={280}
 											className="rounded-lg border"
-										/>
-									</div>
-									<QrImageToolbar imageUrl={institution.qrImage || ""} />
-
-									{/* QR Replacement Upload */}
-									<div className="w-full border-t pt-4">
-										<QrReplacementUpload
-											institutionId={institution.id}
-											onSuccess={handleQrReplacementSuccess}
 										/>
 									</div>
 								</div>

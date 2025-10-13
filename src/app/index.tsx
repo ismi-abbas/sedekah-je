@@ -2,8 +2,14 @@ import { Card } from "@/components/ui/card";
 import { Header } from "@/components/ui/header";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getInstitutions } from "@/lib/queries/institutions";
+import { createFileRoute, useLoaderData } from "@tanstack/react-router";
+import { createServerFn } from "@tanstack/react-start";
 import { Suspense } from "react";
 import { PageClient } from "./page-client";
+
+const getData = createServerFn().handler(async () => {
+	return await getInstitutions();
+});
 
 type SearchParams = {
 	search?: string;
@@ -16,10 +22,14 @@ type Props = {
 	searchParams: SearchParams;
 };
 
-export default async function Home({ searchParams }: Props) {
-	// For initial server-side render, we'll fetch all approved institutions
-	// Client will handle filtering and pagination
-	const institutions = await getInstitutions();
+export const Route = createFileRoute("/")({
+	component: Home,
+	loader: async () => await getData(),
+});
+
+function Home() {
+	const institutions = useLoaderData({ from: Route.id });
+	const { search, category, state, page }: SearchParams = Route.useSearch();
 
 	return (
 		<>
@@ -27,7 +37,12 @@ export default async function Home({ searchParams }: Props) {
 			<Suspense fallback={<HomeLoading />}>
 				<PageClient
 					initialInstitutions={institutions}
-					initialSearchParams={searchParams}
+					initialSearchParams={{
+						category: category || "",
+						state: state || "",
+						search: search || "",
+						page: page || "1",
+					}}
 				/>
 			</Suspense>
 		</>

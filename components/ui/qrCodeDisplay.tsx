@@ -1,7 +1,7 @@
 import type { Institution } from "@/app/types/institutions";
 import { cn } from "@/lib/utils";
+import { Image } from "@unpic/react";
 import { cva } from "class-variance-authority";
-import Image from "next/image";
 import { QRCodeSVG } from "qrcode.react";
 import { type ButtonHTMLAttributes, forwardRef } from "react";
 
@@ -60,9 +60,10 @@ const QrCodeDisplay = forwardRef<HTMLButtonElement, Props>((props, ref) => {
 					>
 						<Image
 							src="/icons/duitnow.png"
-							fill
 							alt="DuitNow"
 							className="object-contain"
+							width={32}
+							height={32}
 						/>
 					</div>
 				)}
@@ -76,9 +77,10 @@ const QrCodeDisplay = forwardRef<HTMLButtonElement, Props>((props, ref) => {
 					>
 						<Image
 							src="/icons/tng.png"
-							fill
 							alt="TNG"
 							className="object-contain"
+							width={32}
+							height={32}
 						/>
 					</div>
 				)}
@@ -92,9 +94,10 @@ const QrCodeDisplay = forwardRef<HTMLButtonElement, Props>((props, ref) => {
 					>
 						<Image
 							src="/icons/boost.png"
-							fill
 							alt="Boost"
 							className="object-contain rounded-full"
+							width={32}
+							height={32}
 						/>
 					</div>
 				)}
