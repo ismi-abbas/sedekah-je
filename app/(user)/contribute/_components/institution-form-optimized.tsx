@@ -20,7 +20,7 @@ import {
 	categories as CATEGORY_OPTIONS,
 	states as STATE_OPTIONS,
 } from "@/lib/institution-constants";
-import { cn } from "@/lib/utils";
+import { cn, toTitleCase } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import {
@@ -318,6 +318,14 @@ export default function InstitutionFormOptimized() {
 						placeholder="Contoh: Masjid Al-Falah"
 						className={`h-12 text-base ${errors.name ? "border-red-500" : ""}`}
 						autoComplete="organization"
+						onPaste={(e) => {
+							e.preventDefault();
+							const pastedText = e.clipboardData.getData("text");
+							setValue("name", toTitleCase(pastedText), {
+								shouldDirty: true,
+								shouldValidate: true,
+							});
+						}}
 					/>
 					{errors.name && (
 						<p className="text-sm text-red-500">{errors.name.message}</p>
@@ -347,7 +355,7 @@ export default function InstitutionFormOptimized() {
 								<SelectContent>
 									{CATEGORY_OPTIONS.map((c) => (
 										<SelectItem key={c} value={c} className="capitalize">
-											{c}
+											{toTitleCase(c)}
 										</SelectItem>
 									))}
 								</SelectContent>
@@ -407,6 +415,14 @@ export default function InstitutionFormOptimized() {
 							placeholder="Contoh: Shah Alam"
 							className={`h-12 text-base ${errors.city ? "border-red-500" : ""}`}
 							autoComplete="address-level2"
+							onPaste={(e) => {
+								e.preventDefault();
+								const pastedText = e.clipboardData.getData("text");
+								setValue("city", toTitleCase(pastedText), {
+									shouldDirty: true,
+									shouldValidate: true,
+								});
+							}}
 						/>
 						{errors.city && (
 							<p className="text-sm text-red-500">{errors.city.message}</p>

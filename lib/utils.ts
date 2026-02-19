@@ -96,10 +96,14 @@ export function toSentenceCase(str: string) {
  */
 export function toTitleCase(str: string): string {
 	return str
+		.replace(/([a-z])([A-Z])/g, "$1 $2")
 		.toLowerCase()
-		.split(/[\s_]+/)
-		.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-		.join(" ");
+		.split(/([\s_-])/)
+		.map((word) => {
+			if ([" ", "_", "-"].includes(word)) return word;
+			return word.charAt(0).toUpperCase() + word.slice(1);
+		})
+		.join("");
 }
 
 /**

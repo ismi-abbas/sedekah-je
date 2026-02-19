@@ -3,6 +3,14 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import type { Institution } from "@/db/institutions";
 import { geocodeInstitution } from "@/lib/geocode";
@@ -11,6 +19,7 @@ import {
 	supportedPayments as PAYMENT_OPTIONS,
 	states as STATE_OPTIONS,
 } from "@/lib/institution-constants";
+import { cn, toTitleCase } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { ExternalLink, Loader2, Search } from "lucide-react";
@@ -21,7 +30,7 @@ import {
 	useState,
 	useTransition,
 } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { updateInstitutionByAdmin } from "../../_lib/queries";
@@ -124,6 +133,7 @@ const InstitutionReviewForm = forwardRef<ReviewFormHandle, Props>(
 			setValue,
 			trigger,
 			watch,
+			control,
 			formState: { errors },
 		} = useForm<LocalFormData>({
 			resolver: zodResolver(dynamicSchema),
@@ -243,34 +253,56 @@ const InstitutionReviewForm = forwardRef<ReviewFormHandle, Props>(
 						</CardTitle>
 					</CardHeader>
 					<CardContent className="space-y-4">
-						<div className="space-y-2">
+						<div className="space-y-2 flex-1">
 							<label className="font-medium" htmlFor="name">
 								Name
 							</label>
-							<Input id="name" {...register("name")} />
+							<Input
+								id="name"
+								{...register("name")}
+								onPaste={(e) => {
+									e.preventDefault();
+									const pastedText = e.clipboardData.getData("text");
+									setValue("name", toTitleCase(pastedText), {
+										shouldDirty: true,
+										shouldValidate: true, // Optional: triggers validation immediately
+									});
+								}}
+							/>
 							{errors.name && (
 								<p className="text-sm text-red-500">{errors.name.message}</p>
 							)}
 						</div>
 
 						<div className="space-y-2">
-							<label className="font-medium" htmlFor="category">
+							<Label htmlFor="category" className="font-medium">
 								Category
-							</label>
-							<select
-								id="category"
-								{...register("category")}
-								className="w-full h-10 px-3 border rounded-md bg-background"
-							>
-								<option value="" disabled>
-									Select category
-								</option>
-								{CATEGORY_OPTIONS.map((c) => (
-									<option key={c} value={c} className="capitalize">
-										{c}
-									</option>
-								))}
-							</select>
+							</Label>
+							<Controller
+								name="category"
+								control={control}
+								render={({ field }) => (
+									<Select value={field.value} onValueChange={field.onChange}>
+										<SelectTrigger
+											id="category"
+											className={cn(
+												"w-full h-10",
+												errors.category && "border-red-500",
+											)}
+											aria-invalid={!!errors.category}
+										>
+											<SelectValue placeholder="Pilih kategori" />
+										</SelectTrigger>
+										<SelectContent>
+											{CATEGORY_OPTIONS.map((c) => (
+												<SelectItem key={c} value={c} className="capitalize">
+													{toTitleCase(c)}
+												</SelectItem>
+											))}
+										</SelectContent>
+									</Select>
+								)}
+							/>
 							{errors.category && (
 								<p className="text-sm text-red-500">
 									{errors.category.message}
@@ -280,32 +312,55 @@ const InstitutionReviewForm = forwardRef<ReviewFormHandle, Props>(
 
 						<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 							<div className="space-y-2">
-								<label htmlFor="state" className="font-medium">
+								<Label htmlFor="state" className="font-medium">
 									State
-								</label>
-								<select
-									id="state"
-									{...register("state")}
-									className="w-full h-10 px-3 border rounded-md bg-background"
-								>
-									<option value="" disabled>
-										Select state
-									</option>
-									{STATE_OPTIONS.map((s) => (
-										<option key={s} value={s} className="capitalize">
-											{s}
-										</option>
-									))}
-								</select>
+								</Label>
+								<Controller
+									name="state"
+									control={control}
+									render={({ field }) => (
+										<Select value={field.value} onValueChange={field.onChange}>
+											<SelectTrigger
+												id="state"
+												className={cn(
+													"w-full h-10",
+													errors.state && "border-red-500",
+												)}
+												aria-invalid={!!errors.state}
+											>
+												<SelectValue placeholder="Pilih negeri" />
+											</SelectTrigger>
+											<SelectContent>
+												{STATE_OPTIONS.map((c) => (
+													<SelectItem key={c} value={c} className="capitalize">
+														{toTitleCase(c)}
+													</SelectItem>
+												))}
+											</SelectContent>
+										</Select>
+									)}
+								/>
 								{errors.state && (
 									<p className="text-sm text-red-500">{errors.state.message}</p>
 								)}
 							</div>
+
 							<div className="space-y-2">
 								<label htmlFor="city" className="font-medium">
 									City
 								</label>
-								<Input id="city" {...register("city")} />
+								<Input
+									id="city"
+									{...register("city")}
+									onPaste={(e) => {
+										e.preventDefault();
+										const pastedText = e.clipboardData.getData("text");
+										setValue("city", toTitleCase(pastedText), {
+											shouldDirty: true,
+											shouldValidate: true,
+										});
+									}}
+								/>
 								{errors.city && (
 									<p className="text-sm text-red-500">{errors.city.message}</p>
 								)}

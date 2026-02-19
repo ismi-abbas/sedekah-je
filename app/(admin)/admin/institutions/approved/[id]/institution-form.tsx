@@ -11,6 +11,7 @@ import {
 	supportedPayments as PAYMENT_OPTIONS,
 	states as STATE_OPTIONS,
 } from "@/lib/institution-constants";
+import { toTitleCase } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { ExternalLink, Loader2, SaveIcon, Search } from "lucide-react";
@@ -217,7 +218,18 @@ export default function ApprovedInstitutionForm({
 						</label>
 						{isEditing ? (
 							<>
-								<Input id="name" {...register("name")} />
+								<Input
+									id="name"
+									{...register("name")}
+									onPaste={(e) => {
+										e.preventDefault();
+										const pastedText = e.clipboardData.getData("text");
+										setValue("name", toTitleCase(pastedText), {
+											shouldDirty: true,
+											shouldValidate: true, // Optional: triggers validation immediately
+										});
+									}}
+								/>
 								{errors.name && (
 									<p className="text-sm text-red-500">{errors.name.message}</p>
 								)}
@@ -245,7 +257,7 @@ export default function ApprovedInstitutionForm({
 									</option>
 									{CATEGORY_OPTIONS.map((c) => (
 										<option key={c} value={c} className="capitalize">
-											{c}
+											{toTitleCase(c)}
 										</option>
 									))}
 								</select>
@@ -301,7 +313,18 @@ export default function ApprovedInstitutionForm({
 							</label>
 							{isEditing ? (
 								<>
-									<Input id="city" {...register("city")} />
+									<Input
+										id="city"
+										{...register("city")}
+										onPaste={(e) => {
+											e.preventDefault();
+											const pastedText = e.clipboardData.getData("text");
+											setValue("city", toTitleCase(pastedText), {
+												shouldDirty: true,
+												shouldValidate: true,
+											});
+										}}
+									/>
 									{errors.city && (
 										<p className="text-sm text-red-500">
 											{errors.city.message}
